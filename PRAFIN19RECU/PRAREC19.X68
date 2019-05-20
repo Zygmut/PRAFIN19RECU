@@ -81,7 +81,7 @@ ETRA:
     JSR GET_ESR_NOTC
     BRA FETCH
 ELD:
-    CLR D0
+    MOVE.W EIR, D0
     AND.W #$00FF,D0
     MOVE.W D0,A0
     ADD.W A0,A0
@@ -96,7 +96,7 @@ ELDI:
     JSR GET_ESR_NOTC
     BRA FETCH
 EST:
-    CLR D0
+    MOVE.W EIR, D0
     AND.W #$00FF,D0
     MOVE.W EIR,A0
     ADD.W A0,A0 
@@ -229,10 +229,10 @@ GET_J:
     BTST.B #8, EIR
     BEQ JB4
 JB5:
-    LEA.L EB4, A3
+    LEA.L EB5, A3
     RTS
 JB4:
-    LEA.L EB5, A3
+    LEA.L EB4, A3
     RTS
 GET_K:              ;extrae la constante K de la instruccion
     MOVE.W #2040,D4
