@@ -223,7 +223,7 @@ GET_C:              ;identifica el registro del parametro C
     MOVE.W #448,D4 
     AND.W EIR,D4
     JSR DREG
-    MOVE.W A2,A2
+    MOVE.W A2,A4
     RTS
 GET_J:
     BTST.B #8, EIR
