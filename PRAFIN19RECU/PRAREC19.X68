@@ -1,6 +1,6 @@
 *-----------------------------------------------------------
 * Title      : PRAREC19
-* Written by : <nombres completos de los autores>
+* Written by : Pablo Jimenez Sanchez, Ruben Palmer Perez
 * Date       : 28/06/2019
 * Description: Emulador de la BBMe
 *-----------------------------------------------------------
@@ -98,7 +98,7 @@ ELDI:
 EST:
     MOVE.W EIR, D0
     AND.W #$00FF,D0
-    MOVE.W EIR,A0
+    MOVE.W D0,A0
     ADD.W A0,A0 
     JSR GET_J
     MOVE.W (A3),EPROG(A0)
@@ -112,6 +112,7 @@ EJMN:
     MOVE.W ESR,D1
     BTST.L #1,D1    
     BEQ FETCH
+    MOVE.W EIR,D0
     AND.W #$00FF,D0
     MOVE.W D0,EPC
     BRA FETCH
@@ -119,10 +120,12 @@ EJMZ:
     MOVE.W ESR,D1
     BTST.L #2,D1
     BEQ FETCH
+    MOVE.W EIR,D0
     AND.W #$00FF,D0
     MOVE.W D0,EPC
     BRA FETCH
 EJMI:
+    MOVE.W EIR,D0
     AND.W #$00FF,D0
     MOVE.W D0,EPC
     BRA FETCH
@@ -136,7 +139,7 @@ ENOR:
     MOVE.W (A1),D3
     OR.W D2,D3
     NOT.W D3
-    MOVE.W D3,(A3)
+    MOVE.W D3,(A4)
     JSR GET_ESR_NOTC
     BRA FETCH
 ESET:
@@ -161,7 +164,7 @@ EADD:
     MOVE.W (A1),D3
     ADD.W D2,D3
     JSR GET_ESR_C
-    MOVE.W D3,(A3)
+    MOVE.W D3,(A4)
     BRA FETCH
 ESUB:
     JSR GET_A
@@ -173,7 +176,7 @@ ESUB:
     ADDQ.W #1,D3
     ADD.W D2,D3
     JSR GET_ESR_C
-    MOVE.W D3,(A3)
+    MOVE.W D3,(A4)
     BRA FETCH
 ETST:
     JSR GET_A
@@ -222,6 +225,7 @@ GET_B:              ;identifica el registro del parametro B
 GET_C:              ;identifica el registro del parametro C
     MOVE.W #448,D4 
     AND.W EIR,D4
+    LSR #6,D4 
     JSR DREG
     MOVE.W A2,A4
     RTS
